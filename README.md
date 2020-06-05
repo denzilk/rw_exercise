@@ -46,6 +46,20 @@ legit social media platform.
   unless you really feel like it.
 
 ## Write Instructions Below:
-* Make sure to also leave a sample woring url for every endpoint you implement
+These should be enough to get the project working:
+```
+docker-compose build
+docker-compose up
+docker-compose exec web rake db:migrate
+docker-compose exec web rake data:ingest
+```
+then you should be able to hit localhost:3000
+http://localhost:3000/api/1/likes/popular_posts  
+http://localhost:3000/api/1/likes/biggest_fans 
 
-
+Thoughts: 
+- I burnt through too much time on getting rails up and running on an old windows laptop (after 7 years on a mac ), so towards the end, I was definitely rushing, and didn't get to finish the final route.
+- I went down the sqlite route since it was already set up.  I wrote a migration to add a simple schema to the db and built an idempotent rake task to ingest the CSV file into it.
+- To have something to show in time, I wrote some raw SQL to do the queries, but normally, I would have used ActiveRecord, or Arel if necessary.
+- Additionally, I would have moved those queries to a model file, leaving my controllers as thin as possible.
+- When planning the API schema, I allowed for a user_id parameter, in case we'd allow for peeking on other people's stats. If not, the user_id would be automatically read from an authentication session variable.
